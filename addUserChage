@@ -1,0 +1,23 @@
+---
+# This play book is use to create user and set password expiration after first login
+#  the temp password is set to NewPass12
+- hosts: "{{hostname}}"
+  become: yes
+  vars_prompt:
+    - name: hostname
+      private: no
+      prompt: 'hostname or group'
+    - name: username
+      prompt: "What is the username "
+      private: no
+
+  tasks:
+    - name: Add user and set a temporal password to NewPass12
+      user:
+        name: "{{username }}"
+        state: present
+        groups: wheel
+        password: "{{ 'NewPass12' | password_hash('sha512') }}"
+
+    - name: Set password expiration
+      shell: chage --lastday 0  {{username}}
