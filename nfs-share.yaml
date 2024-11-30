@@ -1,0 +1,29 @@
+---
+- hosts: nfs
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  vars_prompt:
+  - name: username
+    prompt: "What is the username? "
+    private: false
+  - name: password
+    prompt: "What is the password? "
+    private: false
+  - name: unispherehost
+    prompt: "Add server hostname or IP address "
+    private: false
+  tasks:     
+  - name: "Create NFS server with kdctype as Unix"
+    dellemc.unity.nfsserver:
+      unispherehost: "{{unispherehost}}"
+      username: "{{username}}"
+      password: "{{password}}"
+      #validate_certs: "{{validate_certs}}"
+      host_name: "nfs-server"
+      nfs_server_id: 206
+      is_secure_enabled: true
+      kerberos_domain_controller_type: "UNIX"
+      is_extended_credentials_enabled: false
+      nfs_v4_enabled: true
+      state: "present"
