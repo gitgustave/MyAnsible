@@ -1,0 +1,361 @@
+ceph-ansible-45d (5.4.6-1focal) focal; urgency=medium
+
+  * remove multiple nfs vips
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 04 Dec 2024 11:24:07 -0400
+
+ceph-ansible-45d (5.4.5-1focal) focal; urgency=medium
+
+  * ceph-nfs - update nfs validation task
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 21 Oct 2024 13:44:53 -0300
+
+ceph-ansible-45d (5.4.4-1focal) focal; urgency=medium
+
+  * updated alerting rules
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 07 Oct 2024 10:47:19 -0300
+
+ceph-ansible-45d (5.4.3-2focal) focal; urgency=medium
+
+  * ceph-prerun: Added standalone ansible ppa for ubuntu offline installs, fixed
+    incorrect prometheus container name
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 03 Jan 2024 09:48:31 -0400
+
+ceph-ansible-45d (5.4.3-1focal) focal; urgency=medium
+
+  * ceph-prerun: Added standalone ansible ppa for ubuntu offline installs
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 03 Jan 2024 09:35:48 -0400
+
+ceph-ansible-45d (5.4.2-3focal) focal; urgency=medium
+
+  * ceph-osd: Don't attach dedicated db or wal to standalone SSD/NVMe OSD
+
+ -- Brett Kelly <bkelly@45drives.com>  Sun, 29 Oct 2023 10:49:33 -0300
+
+ceph-ansible-45d (5.4.2-2focal) focal; urgency=medium
+
+  * fixes for offline-installs
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 12 Sep 2023 11:30:14 -0300
+
+ceph-ansible-45d (5.4.2-1focal) focal; urgency=medium
+
+  * fixes for offline installs
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 12 Sep 2023 11:04:04 -0300
+
+ceph-ansible-45d (5.4.1-1focal) focal; urgency=medium
+
+  * fix nfs deployment bug in ubuntu clusters
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 19 Jun 2023 06:55:11 -0300
+
+ceph-ansible-45d (5.4.0-3focal) focal; urgency=medium
+
+  * ansible-core 2.12 support
+  * ubuntu20 uses podman
+  * snapshield support
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 25 May 2023 12:03:25 -0300
+
+ceph-ansible-45d (5.4.0-2focal) focal; urgency=medium
+
+  * set ansible 5.6.0 rpm dep
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 24 May 2023 11:58:10 -0300
+
+ceph-ansible-45d (5.4.0-1focal) focal; urgency=medium
+
+  * ansible-core 2.12 support
+  * use podman with ubuntu 20.04
+  * snapshield support
+  * nfs kernel server use correct mountd port
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 18 May 2023 13:58:02 -0300
+
+ceph-ansible-45d (5.3.9-2focal) focal; urgency=medium
+
+  * tighten up rpm deps
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 16 May 2023 07:36:03 -0300
+
+ceph-ansible-45d (5.3.9-1focal) focal; urgency=medium
+
+  * first testing package with ansible-core-2.12 support
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 16 May 2023 07:26:25 -0300
+
+ceph-ansible-45d (5.3.8-4focal) focal; urgency=medium
+
+  * update grafana version to 9.5.1
+  * update prometheus version to 2.43.1
+  * relax anisble verison requirement
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 11 May 2023 06:30:16 -0300
+
+ceph-ansible-45d (5.3.8-3focal) focal; urgency=medium
+
+  * relax ansible requirement to allow newer versions
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 10 May 2023 15:18:05 -0300
+
+ceph-ansible-45d (5.3.8-2focal) focal; urgency=medium
+
+  * updated prometheus to add support for wildcard scrape config files
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 10 May 2023 10:03:01 -0300
+
+ceph-ansible-45d (5.3.7-2focal) focal; urgency=medium
+
+  * run ceph-defaults and ceph-facts role with rgws hosts when deploying rgw-loadbalancing
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 21 Mar 2023 13:15:06 -0300
+
+ceph-ansible-45d (5.3.7-1focal) focal; urgency=medium
+
+  * allow either custom or community repo source
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 20 Mar 2023 15:03:15 -0300
+
+ceph-ansible-45d (5.3.6-2focal) focal; urgency=medium
+
+  * set static port for mountd service when using nfs-kernel in debian based systems
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 09 Mar 2023 11:56:52 -0400
+
+ceph-ansible-45d (5.3.6-1focal) focal; urgency=medium
+
+  * fixed nfs kernel failover issue
+  * added validate check if wrong interface is given
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 07 Mar 2023 12:18:57 -0400
+
+ceph-ansible-45d (5.3.5-1focal) focal; urgency=medium
+
+  * set minimum bluestore allocation unit to 4096
+  * when using custom ceph repo still pull down iscsi repo from ceph
+  * update offline repos to support 45d built ceph packages
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 14 Feb 2023 09:19:47 -0400
+
+ceph-ansible-45d (5.3.4-3focal) focal; urgency=medium
+
+  * released to stable
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 14 Dec 2022 10:28:04 -0400
+
+ceph-ansible-45d (5.3.4-2focal) focal; urgency=medium
+
+  * build 5.3.4-2
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 24 Nov 2022 10:56:04 -0400
+
+ceph-ansible-45d (5.3.4-1focal) focal; urgency=medium
+
+  * added knfs support
+  * build 5.3.4
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 24 Nov 2022 09:17:30 -0400
+
+ceph-ansible-45d (5.3.3-1focal) focal; urgency=medium
+
+  * build 5.3.3
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 26 Sep 2022 12:43:18 -0300
+
+ceph-ansible-45d (5.3.3-100focal) focal; urgency=medium
+
+  * bump build rev
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 26 Sep 2022 10:32:03 -0300
+
+ceph-ansible-45d (5.3.3-99focal) focal; urgency=medium
+
+  * use 45drives ceph repos instead of community
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 26 Sep 2022 09:45:40 -0300
+
+ceph-ansible-45d (5.3.2-1focal) focal; urgency=medium
+
+  * updated samba-ansible dependency to >= 1.1.3
+  * updated manifest to release to 45drives stable repo
+  * modified samba deployment to use either winbind, or sssd to join domains.
+  * joining domain can now use a kerberos ticket, or username/password
+  * updated nfs playbooks to specify vip interface
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 06 Jul 2022 06:38:56 -0300
+
+ceph-ansible-45d (5.3.1-17focal) focal; urgency=medium
+
+  * specify which phys iterface the VIP will reside
+
+ -- Brett Kelly <bkelly@45drives.com>  Tue, 05 Jul 2022 14:18:13 -0300
+
+ceph-ansible-45d (5.3.1-16focal) focal; urgency=medium
+
+  * added samba-common package to redhat_samba_packages list in purge-smb.yml
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 20 Jun 2022 10:17:44 -0300
+
+ceph-ansible-45d (5.3.1-15focal) focal; urgency=medium
+
+  * updated kerberos_init.yml playbook
+
+ -- Mark Hooper <mhooper@45drives.com>  Fri, 10 Jun 2022 09:55:20 -0300
+
+ceph-ansible-45d (5.3.1-14focal) focal; urgency=medium
+
+  * added kerberos_init.yml playbook
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 09 Jun 2022 13:50:05 -0300
+
+ceph-ansible-45d (5.3.1-13focal) focal; urgency=medium
+
+  * updated list of redhat_samba_packages to be removed when purging samba
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 09 Jun 2022 06:58:19 -0300
+
+ceph-ansible-45d (5.3.1-12focal) focal; urgency=medium
+
+  * removed ceph* wildcard in list of ubuntu packages for samba
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 07 Jun 2022 12:02:41 -0300
+
+ceph-ansible-45d (5.3.1-11focal) focal; urgency=medium
+
+  * fixed typo in configure_memory_allocator.yml
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 06 Jun 2022 06:16:47 -0300
+
+ceph-ansible-45d (5.3.1-10focal) focal; urgency=medium
+
+  * updated how listeners are notified in configure_memory_allocator.yml
+
+ -- Mark Hooper <mhooper@45drives.com>  Fri, 03 Jun 2022 10:38:41 -0300
+
+ceph-ansible-45d (5.3.1-9focal) focal; urgency=medium
+
+  * added task to remove any cephfs mounts on all hosts when purhing cluster
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 02 Jun 2022 07:40:45 -0300
+
+ceph-ansible-45d (5.3.1-8focal) focal; urgency=medium
+
+  * update ansible dependancy to 2.9.27
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 01 Jun 2022 13:26:03 -0300
+
+ceph-ansible-45d (5.3.1-7focal) focal; urgency=medium
+
+  * fixed version number
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 01 Jun 2022 11:44:43 -0300
+
+ceph-ansible-45d (2.3.2-1focal) focal; urgency=medium
+
+  * merged in external samba role
+  * added missing delegate task when creating cephfs/nfs pools
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 01 Jun 2022 11:20:27 -0300
+
+ceph-ansible-45d (5.3.1-6focal) focal; urgency=medium
+
+  * smb rework pre-release
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 30 Mar 2022 13:04:56 -0300
+
+ceph-ansible-45d (5.2.2-6focal) focal; urgency=medium
+
+  * updated device-alias.yml to skip running dmap when /etc/vdev_id.conf exists and
+    isn't created using dmap
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 07 Oct 2021 10:54:47 -0300
+
+ceph-ansible-45d (5.2.2-5focal) focal; urgency=medium
+
+  * ceph-iscsi: el8 install from ceph-iscsi repo
+
+ -- Brett Kelly <bkelly@45drives.com>  Mon, 13 Sep 2021 08:01:35 -0300
+
+ceph-ansible-45d (5.2.2-4focal) focal; urgency=medium
+
+  * fixed syntax error ganesha.conf.j2
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 08 Sep 2021 13:57:34 -0300
+
+ceph-ansible-45d (5.2.2-3focal) focal; urgency=medium
+
+  * added rocky nfs support
+
+ -- Brett Kelly <bkelly@45drives.com>  Wed, 08 Sep 2021 09:11:08 -0300
+
+ceph-ansible-45d (5.2.2-2focal) focal; urgency=medium
+
+  * added Rocky to list of distros in iscsi.yml
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 07 Sep 2021 06:23:20 -0300
+
+ceph-ansible-45d (5.2.2-1focal) focal; urgency=medium
+
+  * updated version for cockpit-ceph-deploy requirements
+  * releasing 5.2.2-1 on 45drives-stable repo
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 24 Aug 2021 12:59:30 -0300
+
+ceph-ansible-45d (5.2.1-5focal) focal; urgency=medium
+
+  * added python3-netaddr dependency for rocky
+
+ -- Mark Hooper <mhooper@45drives.com>  Wed, 28 Jul 2021 12:38:50 -0300
+
+ceph-ansible-45d (5.2.1-4focal) focal; urgency=medium
+
+  * updated purge-rgw.yml to use apt purge to fix issue with haproxy and keepalived
+
+ -- Mark Hooper <mhooper@45drives.com>  Tue, 27 Jul 2021 14:38:23 -0300
+
+ceph-ansible-45d (5.2.1-3focal) focal; urgency=medium
+
+  * added an infractructure playbook to purge rgw and rgwloadbalancers
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 26 Jul 2021 12:55:45 -0300
+
+ceph-ansible-45d (5.2.1-2focal) focal; urgency=medium
+
+  * modified generate-osd-vars.yml to ignore ceph-deploy host_vars files
+
+ -- Mark Hooper <mhooper@45drives.com>  Thu, 22 Jul 2021 11:27:25 -0300
+
+ceph-ansible-45d (5.2.1-1focal) focal; urgency=medium
+
+  * rework prerun role to use new repo
+  * rework prerun role to support rocky 8
+
+ -- Brett Kelly <bkelly@45drives.com>  Thu, 22 Jul 2021 11:20:08 -0300
+
+ceph-ansible-45d (5.2.0-3focal) focal; urgency=medium
+
+  * modified remove-vg.yml playbook
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 19 Jul 2021 08:59:10 -0300
+
+ceph-ansible-45d (5.2.0-2focal) focal; urgency=medium
+
+  * modified remove-vg.yml playbook
+
+ -- Mark Hooper <mhooper@45drives.com>  Mon, 19 Jul 2021 08:09:22 -0300
+
+ceph-ansible-45d (5.2.0-1focal) focal; urgency=medium
+
+  * Finalize auto-packaging.
+
+ -- Dawson Della Valle <ddellavalle@45drives.com>  Fri, 16 Jul 2021 12:15:01 -0300
+
+ceph-ansible-45d (0.0.0-1focal) focal; urgency=medium
+
+  * First auto-package for ubuntu & rhel.
+
+ -- Dawson Della Valle <ddellavalle@45drives.com>  Fri, 16 Jul 2021 12:09:57 -0300
