@@ -6,6 +6,7 @@
     debug: 
       msg: "Message to display"
     when: ansible_memtotal_mb > 13592 
+    
   - name: Setup vm.swappiness
     sysctl:
       name: vm.swappiness

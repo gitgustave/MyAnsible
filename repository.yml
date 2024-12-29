@@ -10,7 +10,6 @@
       baseurl: http://mirror.centos.org/centos/7/centosplus/x86_64
       gpgcheck: yes
       enabled: yes
-
     notify: yum-clean-metadata
 
   - name: inserte line in mariadb file
