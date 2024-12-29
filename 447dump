@@ -1,0 +1,515 @@
+DO447 Question
+* Read the Instruction.
+1. you will get total 8 vms.
+control.domain11.example.com
+node1.domain11.example.com
+node2.domain11.example.com
+node3.domain11.example.com
+tower.domain11.example.com
+node4.domain11.example.com
+node5.domain11.example.com
+node6.domain11.example.com
+git.domain11.example.com(Git repos)
+2. Total 17 question,Time 4.00 hr.
+3. ssh keybase configuration already done with all machine using 'admin' user.
+4. 'root' user password is 'indionce' .
+5. Git and Vim packages are not installed.
+========================================================================
+=======================================
+Q1. configure git in control machine
+a. user name = 'gituser'
+b. user email id = 'gituser@example.com'
+c. push default methode = 'simple'
+d. create a project "user_project" from
+"http://git.lab.example.com:8081/git/user-project.git" .
+e. playbook created there name "create_user.yml" with some task.users will create from
+a file
+user_list.yml where some user names are there with a group.
+f. Add "greg" user to a group "developer"
+g. Add "serverc.lab.example.com" to a group "prod" inside the inventory and run the
+playbook.
+h. After done push to git remote repo.
+========================================================================
+============
+Q1. ans:-
+$ git config --global user.name 'gituser'
+$ git config --global user.email 'gituser@example.com'
+$ git config --global push.default simple
+$ git config --global credential.helper store
+$ echo “https://gituser:passwd@git.lab.example.com“ > ~/.git-credentials
+Note: You can get the password from the Tower Creadential question
+$ git clone http://git.lab.example.com:8081/git/user-project.git
+$ cd create_user
+$ vim inventory
+[dev]
+servera.lab.example.com
+serverc.lab.example.com
+[prod]
+serverb.lab.example.com
+$ vim user_list.yml
+---
+developer:
+- stave
+- tony
+- vision
+- mark
+- greg
+$ ansible-playbook create_user.yml
+$ git add --all
+$ git status
+$ git commit -m 'added user and node3 in dev host group'
+$ git status
+$ git push
+################################################################
+Q2. install alias httpd install.
+a. clone the project name "web_install" from
+http://git.lab.example.com:8081/git/alias_httpd.git .
+b. There is a file "alias.conf" with some data . playbook was created with copy task.
+c. if the task was exicuting httpd service should restart if not httpd service should not
+start.
+d. After exicute playbook push to git server.
+========================================================================
+==
+Q2 ans:-
+$ cd /home/admin/git-repos
+$ git clone <git url>
+$ cd web_install
+$ vim apache-setup.yml
+---
+- name: Install httpd alias
+hosts: all
+become: yes
+tasks:
+- name: Generate a basic homepage from jinja2 template
+copy:
+src: alias.conf
+dest: /var/www/html/index.html
+force: yes
+notify: restart httpd
+- firewalld:
+service: "{{ item }}"
+permanent: true
+state: enabled
+loop:
+- http
+- https
+notify: restart firewalld
+handlers:
+- name: restart httpd
+service:
+name: httpd
+state: restarted
+enabled: yes
+- name: restart firewalld
+service:
+name: firewalld
+state: restarted
+enabled: yes
+$ ansible-playbook apache-setup.yml
+$ git status
+$ git add --all
+$ git commit -m 'updated httpd alias playbook'
+$ git push
+################################################################
+Q3. create a tag based playbook.
+a. Playbook name "tags.yml" pull from
+http://git.lab.example.com:8081/git/tag-project.git
+b. Add 'hello' to "/var/www/html/index.html" in 'dev' host group with tag 'alpha'.
+c. Add 'by by' to "/var/www/html/index.html" in same 'dev' host group with tag 'beta'.
+d. If any tag not given playbook should not exicute any task.
+e. After done everything push to git server.
+===============================================================
+Q3 ans:-
+$ cd /home/admin/git-repos/
+$ git clone <git url>
+$ cd tag-project
+$ vim tags.yml ( in exam this paybook need to create )
+---
+- name: Ensure Apache is deployed
+hosts: dev
+become: yes
+tasks:
+- name: first tag task
+copy:
+content: "Hello"
+dest: /var/www/html/index.html
+force: yes
+tags: [ never, alpha ]
+notify: restart httpd
+- mame: second tag task
+copy:
+content: "By By"
+dest: /var/www/html/index.html
+force: yes
+tags: [ never, beta ]
+notify: restart httpd
+handlers:
+- name: restart httpd
+service:
+name: httpd
+state: restarted
+enabled: yes
+$ ansible-playbook tags.yml -t alpha/beta
+$ git add --all
+$ git commit -m 'Added tags to the playbook'
+$ git push
+################################################################
+Q4. Tune ansible configuration file.
+a. Pull git project from "http://git.lab.example.com:8081/git/fork-project.git"
+b. Modify ansible.cfg file with parallelization size is 45 and gather facts no.
+c. Push to git server.
+============================================================
+Q4 ans:-
+$ cd /home/admin/git-repos/
+$ git clone http://git.lab.example.com:8081/git/fork-project.git
+$ cd fork-project
+$ vim ansible.cfg
+[defaults]
+inventory=inventory
+remote_user=admin
+forks=45
+gathering=explicit
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+become_ask_pass=False
+$ git add .
+$ git commit -m 'coomit name'
+$ git push
+################################################################
+Q5. Already having a file verify-file.yaml
+git url- http://git.lab.example.com:8081/git/checksum-project.git
+---
+files:
+- name: /opt/file/rrouetr.gz
+checksum:028091820480-0`1djowue01u0312-0 /opt/file/tmp/rrouetr.gz
+- name: /opt/file/sdoisad
+checksum: -21830ej021ie-921-iedp2i-3-=2- /opt/file/tmp/sdoisad
+- name: /opt/file/dofuoewn
+checksum: wq9e8qwjkjdeqe-8-2q8e02ueedioqw0 /opt/file/dofuoewn
+a. Create a playbook "verify.yaml" which will check the checksum of the files
+with the provided checksum.
+b. If the checksum is correct it will show an out put
+Checksum Right: <filename>
+c. Or else it will show
+Checksum Wrong: <filename>
+d. After done push to git server.
+Ans:
+$ vim check_sum.yml
+---
+- name: Compare file checksum
+hosts: localhost
+vars_files:
+- files.yml
+tasks:
+- name: Check given file checksums
+stat:
+path: "{{ item.file }}"
+loop: "{{ file_checksum }}"
+register: stat_results
+- debug:
+msg: "Checksum PASS: {{ item.stat.path }}"
+when: item.stat.checksum == item.item.checksum.split()[0]
+loop: "{{ stat_results.results }}"
+loop_control:
+label: "{{ item.stat.path }}"
+- debug:
+msg: "Checksum FAIL: {{ item.stat.path }}"
+when: item.stat.checksum != item.item.checksum.split()[0]
+loop: "{{ stat_results.results }}"
+loop_control:
+label: "{{ item.stat.path }}"
+$ ansible-playbook checksum.yml
+$ git add --all
+$ git commit -m "Created playbook"
+$ git push
+(or)
+Collect IPs from given file
+---
+- name: Collect IPs
+hosts: localhost
+vars_files:
+- ip_list.yml
+tasks:
+- name: Filter ips and copy to target
+copy:
+content: "IPADDR={{ lookup('file', item) | regex_findall('\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b') |
+unique | join(',') | default('none', true) }}"
+dest: /opt/ipdir/"{{ item }}.ip"
+loop: "{{ files }}"
+################################################################
+Q6. Create users.
+a. Clone the project from "http://git.lab.example.com:8081/git/create_user.git" ( note if
+the url not work create the project dirctorty on git )
+b. Already having a "user_list.yaml" file with content
+users:
+name: bobby
+first: john
+middle: micheal
+last: bobby
+uid: 1003
+- name: smith
+first: steven
+middle: franklin
+last: smith
+uid: 1007
+- name: warner
+first: david
+middle: simon
+last: warner
+uid: 1009
+c. Create a playbook "create_user.yam"l which will create the users with the following
+details.
+i. users will be created with the name and proper uid.
+ii. in the GECOS part it will be 'firstname middlename lastname' and
+the first letter should be capital.(eg John Micheal Bobby).
+iii. For every user it should create a 6 digit random password with SHA512
+encryption.
+The saltvalue of the password will be stored in a file filnema-<username> in
+the
+directory on which the playbook will be executed in the control node
+d. After done all push to git server.
+=============================================================
+Ans:
+$ vim create_user.yml
+---
+- name: Create remote users
+hosts: all
+become: yes
+vars_files:
+- user_list.yml
+tasks:
+- name: Create users
+vars:
+password: "{{ lookup('password', 'password-' + item.name + 'length=6 chars=digits') }}"
+user:
+name: "{{ item.name }}"
+uid: "{{ item.uid }}"
+state: present
+password: "{{ password | password_hash('sha512') }}"
+update_password: on_create
+comment: "{{ item.first | capitalize }} {{ item.middle | capitalize }} {{ item.last | capitalize }}"
+loop: "{{ users }}"
+$ ansible-playbook create_user.yml
+$ git add --all
+$ git commit -m "playbook to create users"
+$ git push
+################################################################
+Q7. Create control group
+a. Clone the project from http://git.lab.example.com:8081/git/cgroup-project.git
+control group name is ex447.
+b. All files owned user or group for the control group: admin
+c. Controllers - cpuacct,memory,pid
+d. Playbook name install_vim.yml which will install a vim application.
+e. Playbook should pint the time.
+============================================================
+Q7 ans:-
+$ cd /home/admin/git-repos
+$ git clone <git url>
+$ cd cgroup-project
+$ vim cgcreate.yml
+---
+- name: Install cgroup
+hosts: localhost
+become: yes
+tasks:
+- name: Install cgroup packages
+yum:
+name: "{{ item }}"
+state: latest
+loop:
+- libcgroup
+- libcgroup-tools
+- name: Create cgroup ex447
+shell: cgcreate -a admin:admin -t admin:admin -g cpuacct,memory,pids:ex447
+$ vim ansible.cfg
+[defaults]
+inventory = inventory
+callback_whitelist = timer, profile_tasks, cgroup_perf_recap
+[callback_cgroup_perf_recap]
+control_group=ex447 #name of cgroup
+$ cgexec -g cpuacct,memory,pids:ex447 ansible-playbook install_vim.yml
+Output must show this :
+CGROUP PERF RECAP
+*************************************************************************************************************
+***************
+Memory Execution Maximum: 168.23MB
+pids Execution Maximum: 12.00
+cpu Execution Maximum: 99.95%
+# git add --all
+# git commit -m 'installed and create cgroup'
+# git push
+################################################################
+Q8. Install Ansible Tower.
+a. Tower need nginx not apache. Do in tower machine.
+b. Use the password 'redhat'.
+c. Use the following url to get the Tower apckage and license file.
+http://content.example.com/ansible2.8/x86_64/dvd/setup-bundle/ansible-tower-setup-bundle-lat
+est.el8.tar.gz
+License:- http://materials.example.com/tower/install/Ansible-Tower-license.txt
+========================================================================
+======
+Q8 ans:-
+# ssh root@tower.lab.example.com (from workstation access tower machine)
+# curl --remote-name
+http://content.example.com/ansible2.8/x86_64/dvd/setup-bundle/ansible-tower-setup-bundle-lat
+est.el8.tar.gz
+# tar xzf ansible-tower-setup-bundle-latest.el8.tar.gz
+# cd ansible-tower-setup-bundle-3.5.0-1.el8
+# vim inventory
+admin_password='redhat'
+pg_password='redhat'
+rabbitmq_password='redhat'
+# Then configure ngix configuration in exam only.
+# sh setup.sh
+# logout (come again to workstation machine)
+# cd /tmp/
+# wget http://materials.example.com/tower/install/Ansible-Tower-license.txt
+# Login to Tower in firefox browser https://tower.lab.example.com
+################################################################
+Q9.
+i. create 4 user -
+a. FIRST NAME = Sam
+LAST NAME = Simons
+ORGANIZATION = Default
+EMAIL = sam@lab.example.com
+USERNAME= sam
+PASSWORD= redhat123
+USER TYPE= Normal User
+b. FIRST NAME = Mukesh
+LAST NAME = Sahu
+ORGANIZATION = Default
+EMAIL = mukesh@lab.example.com
+USERNAME= mukesh
+PASSWORD= redhat123
+USER TYPE= Normal User
+c. FIRST NAME = Rakesh
+LAST NAME = Samal
+ORGANIZATION = Default
+EMAIL = rakesh@lab.example.com
+USERNAME= rakesh
+PASSWORD= redhat123
+USER TYPE= Normal User
+d. FIRST NAME = Ashok
+LAST NAME = Gouda
+ORGANIZATION = Default
+EMAIL = ashok@lab.example.com
+USERNAME= ashok
+PASSWORD= redhat123
+USER TYPE= Normal User
+ii. create 2 team -
+a. NAME = Developers
+DESCRIPTION= Dev Team
+ORGANIZATION = Default
+b. NAME = Sysadmin
+DESCRIPTION= admin Team
+ORGANIZATION = Default
+iii. Add Sam , Mukesh to Developer and Rakesh, Ashok to Sysadmin as a member role.
+Q10.
+i. Create a dynamic inventory ( lab advinventory-dynamic start )
+a. NAME = ldap-freeipa.py
+DESCRIPTION = Dynamic Inventory for IdM Server
+ORGANIZATION = Default
+b. Create a new Inventory called Dynamic Inventory
+NAME = Dynamic Inventory
+DESCRIPTION = Dynamic Inventory from IPA server
+ORGANIZATION = Default
+c. Get dynamic inventory script from
+http://materials.example.com/classroom/ansible/ipa-setup/ldap-freeipa.py
+Note. It will create two group and 3 hosts -
+* firstgroup - servera.lab.example.com, serverb.lab.example.com
+* secgroup - serverc.lab.example.com
+d. create a static inventory using same group and host which created
+by dynamic inventory and use static inventory if you are not able
+to use the above dynamic file.
+* NAME = Prod
+DESCRIPTION = Production Inventory
+ORGANIZATION = Default
+Q11. Create two Credential.
+a. Create a new credential called System.
+NAME = system
+DESCRIPTION = System Credential
+ORGANIZATION = Default
+CREDENTIAL TYPE = Machine
+USERNAME = devops
+PASSWORD = redhat
+PRIVILEGE ESCALATION METHOD = sudo
+PRIVILEGE ESCALATION USERNAME = root
+PRIVILEGE ESCALATION PASSWORD = redhat
+b. Create a new credential called Source.
+NAME = source
+DESCRIPTION = source Credential
+ORGANIZATION = Default
+CREDENTIAL TYPE = Source Control
+USERNAME = git
+SCM PRIVATE KEY = Copy the contents of the /home/student/.ssh/lab_rsa private key
+file on workstation into this field
+c. Provide 'admin' role to "Developers" and 'use' role to "Sysadmin" team.
+Q12. Create a project using source control credential and use dynamic or static inventory. ( lab
+provision-project start )
+i. Create a project
+NAME = My Webservers DEV
+DESCRIPTION = Development Webservers
+ORGANIZATION = Default
+SCM TYPE = Git
+SCM URL =
+ssh://git.lab.example.com/var/opt/gitlab/git-data/repositories/git/my_webservers_DEV.git
+SCM CREDENTIAL = source
+ii. Provide 'admin' role to "Developers" team and 'use' role to "Sysadmin" team.
+Q13. Create two job templates ( lab provision-job start )
+i. Create a new Job Template called DEV webservers setup.
+NAME= DEV webservers setup
+DESCRIPTION = Setup apache on DEV webservers
+JOB TYPE = Run
+INVENTORY = Dynamic Inventoy
+PROJECT = My Webservers DEV
+PLAYBOOK = apache-setup.yml
+CREDENTIAL = system
+ii. Create a new Job Template called DEV ftpservers setup
+NAME = DEV ftpservers setup
+DESCRIPTION = Setup FTP on DEV servers
+JOB TYPE = Run
+INVENTORY = Prod
+PROJECT = My Webservers DEV
+PLAYBOOK = site.yml
+CREDENTIAL = system
+iii. Provide 'admin' role to "Developers" team and "Sysadmin" team.
+Q14. Create a notification job template ( lab project-notification start )
+a. NAME= Notify on Job Success and Failure
+DESCRIPTION = Sends an email to notify the status of the Job
+ORGANIZATION = Default
+TYPE = Email
+HOST = localhost
+RECIPIENT LIST = student@localhost
+SENDER EMAIL = system@tower.lab.example.com
+PORT = 25
+Q15. Create a workflow using existing project,inventory,tamplate,credential.
+( lab project-workflow start )
+a. Create a Workflow Job Template called From Dev to Test
+NAME = From Dev to Test
+DESCRIPTION = Deploy to Dev and on success deploy to Test
+ORGANIZATION = Default
+provide admin role to "Developers" team and "Sysadmin" team. use the created notification to
+notify when the job is failed or passed.
+############################################################################
+#######
+Q16. Do API call using a shell script to launch the above workflow using mukesh user.
+-----------------------------------------------------------------------------
+#Log in to admin user in <system will provide in exam> machine. ( classroom do in workstation )
+vim script.sh
+#!/bin/bash
+curl -X POST -k -s --user <username>:<userpassword>
+https://tower.lab.example.com/api/v2/workflow_job_templates/11/launch/" &> /dev/null
+# chmod 777 script.sh
+# ./script.sh
+Verify workflow executed or not
+############################################################################
+######
+Q17. Take backup of all tower configuration.
+Restore is to /root/bundle directory using ./setup.sh -r.
+ans:-
+# sh /root/ansible.*/setup.sh -b
+# sh /root/ansible.*/setup.sh -r
+############################################################################
+#####
