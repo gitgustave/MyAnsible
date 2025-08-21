@@ -1,7 +1,7 @@
 ---
-- hosts: database
-  become: yes
-  tasks:
+#- hosts: database
+#  become: yes
+ # tasks:
   - name: Create file and content
     blockinfile:
       create: yes      
@@ -10,7 +10,7 @@
       block: |
          dev,test,qa,prod
 
-  - name: archice file
+  - name: archive file
     archive:
       path: /mnt/mysql_backups/database.txt
       dest: /mnt/mysql_backups/archive.gz
