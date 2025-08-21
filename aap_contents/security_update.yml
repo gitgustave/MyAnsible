@@ -1,0 +1,12 @@
+---
+- name: Install Security Updates
+  # note: your 'hosts' section will likely be different as this is a group I created for my Red Hat hosts in Ansible Tower itself.
+  hosts: rhel_hosts
+  gather_facts: no
+  tasks:
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+        security: yes
+...
