@@ -1,0 +1,9 @@
+---
+- tasks:
+  - name: "Display a message"
+    debug:
+      msg: "From AAP"
+  - name: write to file
+    file:
+      src: /etc/fstab
+      dest: /home/gustave
