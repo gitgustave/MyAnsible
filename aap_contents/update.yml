@@ -5,6 +5,6 @@
     - name: "Update"
       yum:
         name: '*'
-        state: lates
+        state: latest
 
      
