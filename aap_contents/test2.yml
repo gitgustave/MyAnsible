@@ -9,3 +9,4 @@
       file:
         src: /etc/fstab
         dest: /home/gustave
+        state: path
