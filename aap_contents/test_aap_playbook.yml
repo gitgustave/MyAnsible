@@ -1,6 +1,6 @@
 ---
 - name: For testing purpose
-  hosts: "{{inventory}}"
+  hosts: test
   tasks:
     - name: "Display"
       debug:
