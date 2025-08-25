@@ -1,0 +1,11 @@
+---
+- name: For testing purpose
+  hosts: test
+  tasks:
+    - name: "Display"
+      debug:
+        msg: "From AAP"
+    - name: write to file
+      file:
+        src: /etc/fstab
+        dest: /home/gustave
