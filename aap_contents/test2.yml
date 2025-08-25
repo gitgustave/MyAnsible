@@ -1,6 +1,6 @@
 ---
 - name: For testing purpose
-  hosts: test
+  hosts: all
   tasks:
     - name: "Display"
       debug:
