@@ -4,9 +4,17 @@
   tasks:
     - name: "Display"
       debug:
-        msg: "From AAP"
+        msg: "From AAP \nGH LAB"
+      register: message
     - name: write to file
-      file:
+      copy:
         src: /etc/fstab
         dest: /home/gustave
-        state: directory
+        owner: gustave
+        mode: "0755"
+        backup: yes
+    - name: modify /etc/issue file
+      lineinfile:
+        path: /etc/issue
+        line: "{{message}}"
+        create: yes
