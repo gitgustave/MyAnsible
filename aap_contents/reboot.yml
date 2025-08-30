@@ -1,6 +1,6 @@
 ---
 - name: For testing purpose
-  hosts: 192.168.0.105
+  hosts: all
   tasks:
     - name: "Rebooting"
       reboot:
